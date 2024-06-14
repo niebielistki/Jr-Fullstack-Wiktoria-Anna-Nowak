@@ -33,7 +33,17 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
+    'corsheaders',
 ]
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3001",
+]
+
 
 ROOT_URLCONF = 'transformer.urls'
 

@@ -2,7 +2,7 @@ FROM python:3.9-slim
 
 RUN adduser --disabled-password --gecos '' user
 COPY ./requirements*.txt /home/user/
-RUN apt-get update && apt-get install -y postgresql openssl gcc libpq-dev
+RUN apt-get update && apt-get install -y postgresql openssl gcc libpq-dev netcat-openbsd
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r /home/user/requirements-development.txt
 
