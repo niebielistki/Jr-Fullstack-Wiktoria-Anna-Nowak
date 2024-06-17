@@ -1,0 +1,13 @@
+CustomerID,Name,Age,Email,PurchaseAmount,PurchaseDate,Country
+3400,Customer1,20,customer1@example.com,242.52,2023-01-31,Canada
+8917,Customer2,63,customer2@example.com,106.01,2023-02-28,UK
+3586,Customer3,37,customer3@example.com,23.72,2023-03-31,Australia
+4469,Customer4,18,customer4@example.com,655.14,2023-04-30,Germany
+4689,Customer5,23,customer5@example.com,338.45,2023-05-31,Germany
+1303,Customer6,20,customer6@example.com,119.23,2023-06-30,Germany
+4376,Customer7,31,customer7@example.com,157.32,2023-07-31,UK
+1230,Customer8,49,customer8@example.com,839.58,2023-08-31,UK
+9140,Customer9,57,customer9@example.com,918.74,2023-09-30,USA
+8151,Customer10,35,customer10@example.com,463.2,2023-10-31,Australia
+9112,Customer11,63,customer11@example.com,767.28,2023-11-30,UK
+5346,Customer12,32,customer12@example.com,768.08,2023-12-31,Canada

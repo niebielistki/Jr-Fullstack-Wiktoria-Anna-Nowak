@@ -1,7 +1,9 @@
+import os
 import csv
 import json
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 from django.db import connection
 from .celery import app
 
@@ -9,13 +11,34 @@ from .celery import app
 def upload_file(request):
     if request.method == 'POST' and request.FILES.get('file'):
         file = request.FILES['file']
-        data = []
-        decoded_file = file.read().decode('utf-8').splitlines()
-        reader = csv.DictReader(decoded_file)
-        for row in reader:
-            data.append(row)
-        return JsonResponse(data, safe=False)
+        file_path = os.path.join(settings.MEDIA_ROOT, file.name)
+        if os.path.exists(file_path):
+            return JsonResponse({'error': 'File already exists'}, status=400)
+        with open(file_path, 'wb+') as destination:
+            for chunk in file.chunks():
+                destination.write(chunk)
+        # Read the newly uploaded file's content
+        with open(file_path, 'r') as f:
+            data = f.read().splitlines()
+            reader = csv.DictReader(data)
+            result = [row for row in reader]
+        return JsonResponse({'message': 'File uploaded successfully', 'data': result}, status=200)
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+def list_files(request):
+    files = os.listdir(settings.MEDIA_ROOT)
+    return JsonResponse(files, safe=False)
+
+def get_file_content(request, filename):
+    file_path = os.path.join(settings.MEDIA_ROOT, filename)
+    if not os.path.exists(file_path):
+        return JsonResponse({'error': 'File not found'}, status=404)
+
+    with open(file_path, 'r') as file:
+        data = file.read().splitlines()
+        reader = csv.DictReader(data)
+        result = [row for row in reader]
+    return JsonResponse(result, safe=False)
 
 def healthcheck(request):
     status = {}

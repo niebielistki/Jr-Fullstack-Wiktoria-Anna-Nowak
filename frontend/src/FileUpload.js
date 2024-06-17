@@ -23,9 +23,15 @@ const FileUpload = ({ onFileUpload }) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      onFileUpload(response.data);
+      if (response.data.message === 'File uploaded successfully') {
+        onFileUpload(response.data.data); // Immediately display the uploaded file
+      }
     } catch (error) {
-      console.error('Error uploading file:', error);
+      if (error.response && error.response.data.error === 'File already exists') {
+        alert('The file has already been imported before. Check the Uploaded Files section.');
+      } else {
+        console.error('Error uploading file:', error);
+      }
     }
   };
 
