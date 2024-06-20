@@ -20,6 +20,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import { useTheme } from '@mui/material/styles';
 import FileUpload from './FileUpload';
 import Pagination from './Pagination';
 import DataTable from './DataTable';
@@ -27,6 +28,7 @@ import DataEnrichment from './DataEnrichment';
 import axios from 'axios';
 
 const App = () => {
+  const theme = useTheme();
   const [data, setData] = useState([]);
   const [files, setFiles] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -169,7 +171,9 @@ const App = () => {
       <Paper elevation={3} sx={{ mt: 2, p: 2 }}>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">Uploaded Files</Typography>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', color: theme.palette.secondary.dark }}>
+              Uploaded Files
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <List>
@@ -202,7 +206,7 @@ const App = () => {
                       }}
                     />
                   ) : (
-                    <ListItemText primary={file} />
+                    <ListItemText secondary={file} />
                   )}
                   {editingFile === file ? (
                     <IconButton onClick={() => handleRenameFile(file)}>
@@ -228,7 +232,9 @@ const App = () => {
       <Paper elevation={3} sx={{ mt: 2, p: 2 }}>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">Enrich Data</Typography>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', color: theme.palette.secondary.dark }}>
+              Enrich Data
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <DataEnrichment

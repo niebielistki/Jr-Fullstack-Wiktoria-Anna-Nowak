@@ -111,7 +111,7 @@ const DataTable = ({ data }) => {
           sx={{ width: '300px' }}
         />
         <CSVLink data={data} filename="table_data.csv" style={{ textDecoration: 'none' }}>
-          <Button variant="contained" color="primary">
+          <Button variant="outlined" color="secondary">
             Export to CSV
           </Button>
         </CSVLink>
@@ -131,12 +131,12 @@ const DataTable = ({ data }) => {
               indeterminate={visibleColumns.length > 0 && visibleColumns.length < headers.length}
               onClick={handleSelectAllClick}
             />
-            <ListItemText primary="Select All" />
+            <ListItemText secondary="Select All" />
           </MenuItem>
           {headers.map((header) => (
             <MenuItem key={header} value={header}>
               <Checkbox checked={visibleColumns.includes(header)} />
-              <ListItemText primary={header} />
+              <ListItemText secondary={header} />
             </MenuItem>
           ))}
         </Select>

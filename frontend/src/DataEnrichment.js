@@ -53,7 +53,7 @@ const DataEnrichment = ({
           required
         />
       </FormControl>
-      <Button type="submit" variant="contained" color="primary">
+      <Button type="submit" variant="outlined" color="secondary">
         Enrich Data
       </Button>
     </Box>

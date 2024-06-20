@@ -64,7 +64,8 @@ const FileUpload = ({ onFileUpload, setSelectedFile }) => {
   return (
     <Box display="flex" alignItems="center" mt={2}>
       <Button
-        variant="contained"
+        variant="outlined"
+        color="secondary"
         component="label"
       >
         Choose File
@@ -77,14 +78,15 @@ const FileUpload = ({ onFileUpload, setSelectedFile }) => {
       {file && <TextField
         value={file.name}
         variant="outlined"
+        color="secondary"
         size="small"
         margin="normal"
         disabled
         sx={{ ml: 2 }}
       />}
       <Button
-        variant="contained"
-        color="primary"
+        variant="outlined"
+        color="secondary"
         onClick={handleFileUpload}
         sx={{ ml: 2 }}
       >

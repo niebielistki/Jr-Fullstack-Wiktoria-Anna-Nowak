@@ -17,13 +17,12 @@ const Pagination = ({ rowsPerPage, totalRows, paginate, currentPage, handleDispl
             page={currentPage}
             onChange={(event, value) => paginate(value)}
             variant="outlined"
-            shape="rounded"
-            color="primary"
+            color="secondary"
           />
         )}
         <Button
-          variant="contained"
-          color="primary"
+          variant="outlined"
+          color="secondary"
           onClick={handleDisplayAllToggle}
         >
           {displayAll ? 'Show Paginated' : 'Display All on One Page'}
