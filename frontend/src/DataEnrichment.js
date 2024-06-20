@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Button, MenuItem, Select, InputLabel, FormControl, Box } from '@mui/material';
+import { TextField, Button, MenuItem, Select, InputLabel, FormControl, Box, Typography } from '@mui/material';
 
 const DataEnrichment = ({
   apiEndpoint,
@@ -20,6 +20,9 @@ const DataEnrichment = ({
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+      <Typography variant="body1" color="textSecondary" gutterBottom>
+        To properly enrich data, you must first select a file from the Uploaded Files list.
+      </Typography>
       <FormControl fullWidth sx={{ mb: 2 }}>
         <TextField
           label="API Endpoint URL"

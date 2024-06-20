@@ -10,6 +10,7 @@ from .celery import app
 import itertools
 import datetime
 
+
 @csrf_exempt
 def upload_file(request):
     if request.method == 'POST' and request.FILES.get('file'):
@@ -28,9 +29,11 @@ def upload_file(request):
         return JsonResponse({'message': 'File uploaded successfully', 'data': result}, status=200)
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
+
 def list_files(request):
     files = os.listdir(settings.MEDIA_ROOT)
     return JsonResponse(files, safe=False)
+
 
 def get_file_content(request, filename):
     file_path = os.path.join(settings.MEDIA_ROOT, filename)
@@ -42,6 +45,7 @@ def get_file_content(request, filename):
         reader = csv.DictReader(data)
         result = [row for row in reader]
     return JsonResponse(result, safe=False)
+
 
 def flatten_dict(d, parent_key='', sep='_'):
     """
@@ -55,6 +59,7 @@ def flatten_dict(d, parent_key='', sep='_'):
         else:
             items.append((new_key, v))
     return dict(items)
+
 
 @csrf_exempt
 def enrich_data(request):
@@ -119,6 +124,7 @@ def enrich_data(request):
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
+
 def healthcheck(request):
     status = {}
     try:
@@ -135,3 +141,33 @@ def healthcheck(request):
         status["CELERY"] = f"error, {e}"
 
     return HttpResponse(json.dumps(status), content_type='application/json')
+
+
+@csrf_exempt
+def delete_file(request, filename):
+    if request.method == 'DELETE':
+        file_path = os.path.join(settings.MEDIA_ROOT, filename)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            return JsonResponse({'message': 'File deleted successfully'}, status=200)
+        return JsonResponse({'error': 'File not found'}, status=404)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+@csrf_exempt
+def rename_file(request, filename):
+    if request.method == 'PUT':
+        try:
+            body = json.loads(request.body)
+            new_file_name = body['newFileName']
+        except KeyError:
+            return JsonResponse({'error': 'Missing new file name'}, status=400)
+
+        old_file_path = os.path.join(settings.MEDIA_ROOT, filename)
+        new_file_path = os.path.join(settings.MEDIA_ROOT, new_file_name)
+
+        if os.path.exists(old_file_path):
+            os.rename(old_file_path, new_file_path)
+            return JsonResponse({'message': 'File renamed successfully'}, status=200)
+        return JsonResponse({'error': 'File not found'}, status=404)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
