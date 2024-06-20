@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Button, TextField, Box } from '@mui/material';
 
 const FileUpload = ({ onFileUpload }) => {
   const [file, setFile] = useState(null);
@@ -36,10 +37,35 @@ const FileUpload = ({ onFileUpload }) => {
   };
 
   return (
-    <div>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleFileUpload}>Upload</button>
-    </div>
+    <Box display="flex" alignItems="center" mt={2}>
+      <Button
+        variant="contained"
+        component="label"
+      >
+        Choose File
+        <input
+          type="file"
+          hidden
+          onChange={handleFileChange}
+        />
+      </Button>
+      {file && <TextField
+        value={file.name}
+        variant="outlined"
+        size="small"
+        margin="normal"
+        disabled
+        sx={{ ml: 2 }}
+      />}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleFileUpload}
+        sx={{ ml: 2 }}
+      >
+        Upload
+      </Button>
+    </Box>
   );
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
+import { Box, Button, Pagination as MuiPagination, Stack } from '@mui/material';
 
-const Pagination = ({ rowsPerPage, totalRows, paginate, currentPage }) => {
+const Pagination = ({ rowsPerPage, totalRows, paginate, currentPage, handleDisplayAllToggle, displayAll }) => {
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalRows / rowsPerPage); i++) {
@@ -8,17 +9,27 @@ const Pagination = ({ rowsPerPage, totalRows, paginate, currentPage }) => {
   }
 
   return (
-    <nav>
-      <ul className='pagination'>
-        {pageNumbers.map(number => (
-          <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`} style={{ display: 'inline-block', marginRight: '5px' }}>
-            <a onClick={() => paginate(number)} href='#' className='page-link'>
-              {number}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <Box display="flex" justifyContent="flex-end" alignItems="center" mt={2}>
+      <Stack direction="row" spacing={2}>
+        {!displayAll && (
+          <MuiPagination
+            count={pageNumbers.length}
+            page={currentPage}
+            onChange={(event, value) => paginate(value)}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+          />
+        )}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleDisplayAllToggle}
+        >
+          {displayAll ? 'Show Paginated' : 'Display All on One Page'}
+        </Button>
+      </Stack>
+    </Box>
   );
 };
 

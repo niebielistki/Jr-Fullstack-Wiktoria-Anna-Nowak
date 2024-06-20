@@ -1,4 +1,5 @@
 import React from 'react';
+import { TextField, Button, MenuItem, Select, InputLabel, FormControl, Box } from '@mui/material';
 
 const DataEnrichment = ({
   apiEndpoint,
@@ -18,47 +19,41 @@ const DataEnrichment = ({
   const headers = data.length > 0 ? Object.keys(data[0]) : [];
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>
-          API Endpoint URL:
-          <input
-            type="text"
-            value={apiEndpoint}
-            onChange={(e) => setApiEndpoint(e.target.value)}
-            required
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          CSV Key Column:
-          <select
-            value={csvKeyColumn}
-            onChange={(e) => setCsvKeyColumn(e.target.value)}
-            required
-          >
-            {headers.map((header) => (
-              <option key={header} value={header}>
-                {header}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-      <div>
-        <label>
-          API Response Key:
-          <input
-            type="text"
-            value={apiResponseKey}
-            onChange={(e) => setApiResponseKey(e.target.value)}
-            required
-          />
-        </label>
-      </div>
-      <button type="submit">Enrich Data</button>
-    </form>
+    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+      <FormControl fullWidth sx={{ mb: 2 }}>
+        <TextField
+          label="API Endpoint URL"
+          value={apiEndpoint}
+          onChange={(e) => setApiEndpoint(e.target.value)}
+          required
+        />
+      </FormControl>
+      <FormControl fullWidth sx={{ mb: 2 }}>
+        <InputLabel>CSV Key Column</InputLabel>
+        <Select
+          value={csvKeyColumn}
+          onChange={(e) => setCsvKeyColumn(e.target.value)}
+          required
+        >
+          {headers.map((header) => (
+            <MenuItem key={header} value={header}>
+              {header}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <FormControl fullWidth sx={{ mb: 2 }}>
+        <TextField
+          label="API Response Key"
+          value={apiResponseKey}
+          onChange={(e) => setApiResponseKey(e.target.value)}
+          required
+        />
+      </FormControl>
+      <Button type="submit" variant="contained" color="primary">
+        Enrich Data
+      </Button>
+    </Box>
   );
 };
 

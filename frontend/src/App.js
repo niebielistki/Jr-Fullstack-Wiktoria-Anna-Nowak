@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Typography, List, ListItem, ListItemText, Button, Box, Paper, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FileUpload from './FileUpload';
 import Pagination from './Pagination';
 import DataTable from './DataTable';
@@ -75,42 +77,67 @@ const App = () => {
   const handleDisplayAllToggle = () => setDisplayAll(!displayAll);
 
   return (
-    <div>
-      <h1>CSV File Upload and Preview</h1>
+    <Container>
+      <Typography variant="h2" gutterBottom>
+        CSV File Upload and Preview
+      </Typography>
       <FileUpload onFileUpload={handleFileUpload} />
-      <h2>Uploaded Files</h2>
-      <ul>
-        {files.map((file, index) => (
-          <li key={index} onClick={() => handleFileClick(file)}>
-            {file}
-          </li>
-        ))}
-      </ul>
-      <DataEnrichment
-        apiEndpoint={apiEndpoint}
-        setApiEndpoint={setApiEndpoint}
-        csvKeyColumn={csvKeyColumn}
-        setCsvKeyColumn={setCsvKeyColumn}
-        apiResponseKey={apiResponseKey}
-        setApiResponseKey={setApiResponseKey}
-        onEnrichData={handleEnrichData}
-        data={data}
-      />
+      <Paper elevation={3} sx={{ mt: 2, p: 2 }}>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h6">Uploaded Files</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <List>
+              {files.map((file, index) => (
+                <ListItem button key={index} onClick={() => handleFileClick(file)}>
+                  <ListItemText primary={file} />
+                </ListItem>
+              ))}
+            </List>
+          </AccordionDetails>
+        </Accordion>
+      </Paper>
+      <Paper elevation={3} sx={{ mt: 2, p: 2 }}>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h6">Enrich Data</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <DataEnrichment
+              apiEndpoint={apiEndpoint}
+              setApiEndpoint={setApiEndpoint}
+              csvKeyColumn={csvKeyColumn}
+              setCsvKeyColumn={setCsvKeyColumn}
+              apiResponseKey={apiResponseKey}
+              setApiResponseKey={setApiResponseKey}
+              onEnrichData={handleEnrichData}
+              data={data}
+            />
+          </AccordionDetails>
+        </Accordion>
+      </Paper>
+      {selectedFile && (
+        <Box mt={4}>
+          <Typography variant="h6">
+            Currently Viewing: {selectedFile}
+          </Typography>
+        </Box>
+      )}
       <DataTable data={currentRows} />
       {((selectedFile ? data : enrichedData).length > rowsPerPage) && (
-        <div>
+        <Box mt={4}>
           <Pagination
             rowsPerPage={rowsPerPage}
             totalRows={(selectedFile ? data : enrichedData).length}
             paginate={paginate}
             currentPage={currentPage}
+            handleDisplayAllToggle={handleDisplayAllToggle}
+            displayAll={displayAll}
           />
-          <button onClick={handleDisplayAllToggle}>
-            {displayAll ? 'Show Paginated' : 'Display All on One Page'}
-          </button>
-        </div>
+        </Box>
       )}
-    </div>
+    </Container>
   );
 };
 
