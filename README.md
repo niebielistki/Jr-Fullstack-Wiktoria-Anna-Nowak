@@ -1,3 +1,24 @@
+## Edit: Additional Information Regarding the Task
+Thank you for the opportunity to participate in this assignment. I have strived to meet all the requirements and deliver a robust solution. Please follow the instructions below to set up and run the application.
+Greetings, Wiktoria.
+#### How to Run the Program
+
+**1. Clone the Repository:**
+```bash
+git clone <repository_url>
+```
+```bash
+cd Jr-Fullstack-Wiktoria-Anna-Nowak
+```
+**2. Build and Run the Docker Containers:**
+```bash
+docker-compose up --build
+```
+**3. Access the Application:**
+- Backend Server: The backend server will be running at http://localhost:8000.
+- Frontend Server: The frontend application will be available at http://localhost:3001.
+
+
 # Adverity Full-stack challenge
 
 Hi! It's nice to see you here and all the best luck solving the challenge!
