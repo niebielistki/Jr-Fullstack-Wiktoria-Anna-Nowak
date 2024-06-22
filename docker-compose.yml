@@ -1,7 +1,6 @@
 version: "3.8"
 
 services:
-  # Database service
   database:
     container_name: adverity-transformer-challenge-database
     image: postgres:9.6-alpine
@@ -12,7 +11,6 @@ services:
       - "5432:5432"
     restart: unless-stopped
 
-  # Async tasks broker service
   redis:
     container_name: adverity-transformer-challenge-redis
     image: redis:6
@@ -20,11 +18,10 @@ services:
       - "6379:6379"
     restart: unless-stopped
 
-  # Async tasks worker
   celery:
     container_name: adverity-transformer-challenge-celery
     build:
-      context: ${PWD}/backend/
+      context: ./backend/
       dockerfile: Dockerfile.development
     image: adverity-transformer-challenge-backend
     environment:
@@ -34,13 +31,12 @@ services:
       DATABASE_NAME: transformer
     command: watchmedo auto-restart --pattern '*.py' --signal SIGINT --recursive -- celery -A transformer worker -l debug
     volumes:
-      - ${PWD}/backend/:/home/user/backend/:delegated
+      - ./backend/:/home/user/backend/:delegated
 
-  # Main backend application
   backend:
     container_name: adverity-transformer-challenge-backend
     build:
-      context: ${PWD}/backend/
+      context: ./backend/
       dockerfile: Dockerfile.development
     image: adverity-transformer-challenge-backend
     ports:
@@ -51,8 +47,8 @@ services:
       DATABASE_USER: postgres
       DATABASE_NAME: transformer
     volumes:
-      - ${PWD}/backend/:/home/user/backend/:delegated
-      - ${PWD}/frontend/:/home/user/frontend/:delegated
+      - ./backend/:/home/user/backend/:delegated
+      - ./frontend/dist:/home/user/backend/frontend/dist:delegated
     depends_on:
       - database
       - redis
@@ -62,3 +58,15 @@ services:
                   python ./manage.py migrate &&
                   python ./manage.py runserver --insecure 0.0.0.0:8000"
     restart: on-failure
+
+  frontend:
+    container_name: adverity-transformer-challenge-frontend
+    build:
+      context: ./frontend/
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./frontend/:/app
+    command: /bin/sh -c "npm install && npm run start"
+    depends_on:
+      - backend

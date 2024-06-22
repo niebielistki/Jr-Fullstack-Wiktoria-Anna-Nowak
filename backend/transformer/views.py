@@ -171,3 +171,8 @@ def rename_file(request, filename):
             return JsonResponse({'message': 'File renamed successfully'}, status=200)
         return JsonResponse({'error': 'File not found'}, status=404)
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+def debug_template_path(request):
+    template_path = os.path.join(settings.BASE_DIR, 'frontend', 'dist', 'index.html')
+    exists = os.path.exists(template_path)
+    return JsonResponse({'template_path': template_path, 'exists': exists})

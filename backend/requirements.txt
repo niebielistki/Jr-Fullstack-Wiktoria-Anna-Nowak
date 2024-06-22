@@ -1,6 +1,8 @@
-celery==5.2.0
+celery==5.2.2
 Django==3.2.6
 redis==3.5.3
 psycopg2-binary==2.8.6
 django-cors-headers
 requests
+watchdog[watchmedo]==2.1.5
+argh==0.26.2
